@@ -18,14 +18,14 @@ export const StepperFooter: React.FC<StepperFooterProp> = ({
   return (
     <Row className="d-flex justify-content-center mt-5">
       {dataPrev && (
-        <Col xs={3}>
+        <Col xs={6} md={3}>
           <Button style={{width: '100%'}} variant="warning" onClick={() => onClick(dataPrev)}>
             Voltar
           </Button>
         </Col>
       )}
       {dataNext && (
-        <Col xs={3}>
+        <Col xs={6} md={3}>
           <Button disabled={!validation} style={{width: '100%'}} variant="dark" onClick={() => onClick(dataNext)}>
             Próximo
           </Button>

@@ -48,8 +48,7 @@ export const ListBills: React.FC = () => {
         </Breadcrumb>
       </Row>
       <Row className="gx-1">
-        {user &&
-          user.titulos.map((t: ITitulo, i) => {
+        {user?.titulos?.map((t: ITitulo, i) => {
             return (
               <Card key={i} className="mb-2">
                 <Card.Body>
@@ -71,6 +70,7 @@ export const ListBills: React.FC = () => {
               </Card>
             )
           })}
+          {!user?.titulos?.length && <p>Você não possui nenhum boleto em aberto!</p>}
       </Row>
     </React.Fragment>
   )

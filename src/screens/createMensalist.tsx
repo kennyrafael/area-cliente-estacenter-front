@@ -13,7 +13,6 @@ import ListLocales from '../components/listLocales'
 import { useValidation } from '../hooks/useValidation'
 import { updateLoading } from '../store'
 import { useDispatch } from 'react-redux'
-import { useHistory } from 'react-router'
 
 export interface Mensalist {
   nomCli: string
@@ -61,7 +60,6 @@ const classClose = 'content'
 const classActive = 'content active'
 
 export const CreateMensalist: React.FC = () => {
-  const history = useHistory()
   const dispatch = useDispatch()
   const [locales, updateLocales] = useState<ILocale[]>([])
   const [finished, updateFinished] = useState(false)

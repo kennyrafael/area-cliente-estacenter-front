@@ -11,6 +11,19 @@ class DataService {
     })
   }
 
+  checkDocument(document: string): Promise<AxiosResponse<boolean>> {
+    return api.post('check-document', {
+      cpfCnpj: document,
+    })
+  }
+
+  checkEmail(document: string, email: string): Promise<AxiosResponse<boolean>> {
+    return api.post('check-email', {
+      cpfCnpj: document,
+      emaCli: email,
+    })
+  }
+
   getLocales(): Promise<AxiosResponse<{ locais: ILocale[] }>> {
     return api.post('get-locales')
   }

@@ -18,7 +18,6 @@ const ListLocales: React.FC<ListLocalesProps> = ({
   }
 
   const handleOnClick = (v: string) => {
-    console.log(v)
     onSelect(v)
   }
 

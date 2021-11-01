@@ -8,6 +8,7 @@ import { Loading } from './loading'
 import Login from '../middleware/login'
 import { CreateMensalist, ListBills } from '../screens'
 import { EmptyUser } from '../screens/emptyUser'
+import { Identificacao } from '../screens/identificacao'
 
 export const Layout: React.FC = () => {
   const app: IApp = useSelector((storeState: StoreState) => storeState.app)
@@ -28,6 +29,9 @@ export const Layout: React.FC = () => {
           </Route>
           <Route exact path="/novo-usuario">
             <EmptyUser />
+          </Route>
+          <Route exact path="/identificao">
+            <Identificacao />
           </Route>
         </Switch>
       </Container>
