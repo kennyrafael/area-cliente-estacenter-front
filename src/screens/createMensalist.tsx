@@ -66,9 +66,9 @@ export const CreateMensalist: React.FC = () => {
   const [citiesArray, updateCitiesArray] = useState<string[]>([])
   const [selectedCity, updateCity] = useState('')
   const [validation, updateValidation] = useState({
-    step1: true,
-    step2: true,
-    step3: true,
+    step1: false,
+    step2: false,
+    step3: false,
     step4: false,
   })
   const [localesFiltered, updateLocalesFiltered] = useState<ILocale[]>([])
