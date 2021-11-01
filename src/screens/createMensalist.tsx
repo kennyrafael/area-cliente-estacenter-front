@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { Form, Button, Col, Row, Card, InputGroup } from 'react-bootstrap'
+import React, { FormEvent, useCallback, useEffect, useState } from 'react'
+import { Form, Button, Col, Row, Card } from 'react-bootstrap'
 import NumberFormat from 'react-number-format'
 import 'bs-stepper/dist/css/bs-stepper.min.css'
 import {
@@ -63,10 +63,12 @@ export const CreateMensalist: React.FC = () => {
   const dispatch = useDispatch()
   const [locales, updateLocales] = useState<ILocale[]>([])
   const [finished, updateFinished] = useState(false)
+  const [citiesArray, updateCitiesArray] = useState<string[]>([])
+  const [selectedCity, updateCity] = useState('')
   const [validation, updateValidation] = useState({
-    step1: false,
-    step2: false,
-    step3: false,
+    step1: true,
+    step2: true,
+    step3: true,
     step4: false,
   })
   const [localesFiltered, updateLocalesFiltered] = useState<ILocale[]>([])
@@ -75,6 +77,12 @@ export const CreateMensalist: React.FC = () => {
   useEffect(() => {
     if (locales.length === 0) loadLocales()
   }, [locales])
+
+  const handleUpdateSelectedCity = (e: FormEvent<HTMLSelectElement>) => {
+    const city = (e.target as HTMLSelectElement).value
+    updateCity(city)
+    updateLocalesList(city)
+  }
 
   const handleSearch = useCallback(
     (value: string) => {
@@ -95,6 +103,21 @@ export const CreateMensalist: React.FC = () => {
     [search, locales]
   )
 
+  const updateLocalesList = (city: string) => {
+    const newList = locales.filter((l) => {
+      const values = Object.values(l)
+      const term = city.toLowerCase()
+      let match = false
+      values.forEach((v) => {
+        if (v.toString().toLowerCase().indexOf(term) > -1) {
+          match = true
+        }
+      })
+      return match
+    })
+    updateLocalesFiltered(newList)
+  }
+
   const loadLocales = async () => {
     try {
       const document = localStorage.getItem('document')
@@ -102,6 +125,14 @@ export const CreateMensalist: React.FC = () => {
         const userData = await dataService.getLocales()
         const list = userData.data.locais.sort((a, b) => a.codFil - b.codFil)
         updateLocales(list)
+        const cities = new Set(list.map((l) => l.cidLoc))
+        updateCitiesArray(
+          Array.from(cities).sort(
+            (a, b) =>
+              +(a.toLocaleLowerCase() > b.toLocaleLowerCase()) ||
+              -(a.toLocaleLowerCase() < b.toLocaleLowerCase())
+          )
+        )
         updateLocalesFiltered(list)
       }
     } catch (e) {
@@ -183,7 +214,11 @@ export const CreateMensalist: React.FC = () => {
   }
 
   return (
-    <Card bg={finished ? 'success' : ''} text={finished ? 'white' : 'dark'} className="mt-3">
+    <Card
+      bg={finished ? 'success' : ''}
+      text={finished ? 'white' : 'dark'}
+      className="mt-3"
+    >
       <Card.Body>
         <Card.Title>Cadastrar Novo Mensalista</Card.Title>
         <Card.Subtitle>
@@ -191,7 +226,10 @@ export const CreateMensalist: React.FC = () => {
             ? 'O seu cadastro foi realizado com sucesso. Agora é só aguardar a nossa equipe entrar em contato!'
             : 'Preencha os Campos Abaixo'}
         </Card.Subtitle>
-        <Form onSubmit={(e) => handleOnSubmit(e)} className={finished ? 'd-none' : 'mt-4'}>
+        <Form
+          onSubmit={(e) => handleOnSubmit(e)}
+          className={finished ? 'd-none' : 'mt-4'}
+        >
           <div id="stepper" className="bs-stepper">
             <div className="bs-stepper-header">
               {steps.map(
@@ -207,10 +245,12 @@ export const CreateMensalist: React.FC = () => {
             <div className="bs-stepper-content">
               <div
                 id="stepper-1"
-                className={currentStep.id === 1 && !finished ? classActive : classClose}
+                className={
+                  currentStep.id === 1 && !finished ? classActive : classClose
+                }
               >
                 <Row>
-                  <Col xs={4}>
+                  <Col xs={6} md={4}>
                     <Form.Group className="mb-3" controlId="nomCli">
                       <Form.Label>Nome *</Form.Label>
                       <Form.Control
@@ -224,7 +264,7 @@ export const CreateMensalist: React.FC = () => {
                       />
                     </Form.Group>
                   </Col>
-                  <Col xs={8}>
+                  <Col xs={6} md={8}>
                     <Form.Group
                       className="mb-3"
                       style={{ marginTop: '38px' }}
@@ -264,7 +304,7 @@ export const CreateMensalist: React.FC = () => {
                   </Col>
                 </Row>
                 <Row>
-                  <Col xs={4}>
+                  <Col xs={6} md={4}>
                     {newMensalist.tipCli === 'F' && (
                       <Form.Group className="mb-3" controlId="cpfCnpj">
                         <Form.Label>CPF *</Form.Label>
@@ -300,7 +340,7 @@ export const CreateMensalist: React.FC = () => {
                       </Form.Group>
                     )}
                   </Col>
-                  <Col xs={8}>
+                  <Col xs={6} md={8}>
                     <Form.Group
                       className="mb-3"
                       style={{ marginTop: '38px' }}
@@ -347,10 +387,12 @@ export const CreateMensalist: React.FC = () => {
               </div>
               <div
                 id="stepper-2"
-                className={currentStep.id === 2 && !finished ? classActive : classClose}
+                className={
+                  currentStep.id === 2 && !finished ? classActive : classClose
+                }
               >
                 <Row>
-                  <Col xs={4}>
+                  <Col xs={8} md={4}>
                     <Form.Group className="mb-3" controlId="emaCli">
                       <Form.Label>Email *</Form.Label>
                       <Form.Control
@@ -364,7 +406,7 @@ export const CreateMensalist: React.FC = () => {
                       />
                     </Form.Group>
                   </Col>
-                  <Col xs={3}>
+                  <Col xs={6} md={3}>
                     <Form.Group className="mb-3" controlId="fonCli">
                       <Form.Label>Fone Principal *</Form.Label>
                       <NumberFormat
@@ -381,7 +423,7 @@ export const CreateMensalist: React.FC = () => {
                       />
                     </Form.Group>
                   </Col>
-                  <Col xs={3}>
+                  <Col xs={6} md={3}>
                     <Form.Group className="mb-3" controlId="fonCl2">
                       <Form.Label>Fone Secundário</Form.Label>
                       <NumberFormat
@@ -408,10 +450,12 @@ export const CreateMensalist: React.FC = () => {
               </div>
               <div
                 id="stepper-3"
-                className={currentStep.id === 3 && !finished ? classActive : classClose}
+                className={
+                  currentStep.id === 3 && !finished ? classActive : classClose
+                }
               >
                 <Row>
-                  <Col xs={4}>
+                  <Col xs={8} md={4}>
                     <Form.Group className="mb-3" controlId="endCli">
                       <Form.Label>Endereço *</Form.Label>
                       <Form.Control
@@ -425,7 +469,7 @@ export const CreateMensalist: React.FC = () => {
                       />
                     </Form.Group>
                   </Col>
-                  <Col xs={2}>
+                  <Col xs={4} md={2}>
                     <Form.Group className="mb-3" controlId="nenCli">
                       <Form.Label>Número *</Form.Label>
                       <Form.Control
@@ -439,7 +483,7 @@ export const CreateMensalist: React.FC = () => {
                       />
                     </Form.Group>
                   </Col>
-                  <Col xs={4}>
+                  <Col xs={6} md={4}>
                     <Form.Group className="mb-3" controlId="baiCli">
                       <Form.Label>Bairro *</Form.Label>
                       <Form.Control
@@ -453,7 +497,7 @@ export const CreateMensalist: React.FC = () => {
                       />
                     </Form.Group>
                   </Col>
-                  <Col xs={2}>
+                  <Col xs={6} md={2}>
                     <Form.Group className="mb-3" controlId="cepCli">
                       <Form.Label>CEP *</Form.Label>
                       <NumberFormat
@@ -472,7 +516,7 @@ export const CreateMensalist: React.FC = () => {
                   </Col>
                 </Row>
                 <Row>
-                  <Col xs={5}>
+                  <Col xs={8} md={5}>
                     <Form.Group className="mb-3" controlId="cplCli">
                       <Form.Label>Complemento</Form.Label>
                       <Form.Control
@@ -486,7 +530,7 @@ export const CreateMensalist: React.FC = () => {
                       />
                     </Form.Group>
                   </Col>
-                  <Col xs={4}>
+                  <Col xs={6} md={4}>
                     <Form.Group className="mb-3" controlId="cidCli">
                       <Form.Label>Cidade *</Form.Label>
                       <Form.Control
@@ -500,7 +544,7 @@ export const CreateMensalist: React.FC = () => {
                       />
                     </Form.Group>
                   </Col>
-                  <Col xs={3}>
+                  <Col xs={6} md={3}>
                     <Form.Group className="mb-3" controlId="estCli">
                       <Form.Label>Estado *</Form.Label>
                       <Form.Control
@@ -524,13 +568,27 @@ export const CreateMensalist: React.FC = () => {
               </div>
               <div
                 id="stepper-4"
-                className={currentStep.id === 4 && !finished ? classActive : classClose}
+                className={
+                  currentStep.id === 4 && !finished ? classActive : classClose
+                }
               >
                 <Row>
                   {newMensalist.desLoc === '' && (
                     <React.Fragment>
                       <Col xs={8}>
                         <Form.Group className="mb-3" controlId="estCli">
+                          <Form.Select
+                            onChange={(e): void => {
+                              handleUpdateSelectedCity(e)
+                            }}
+                            aria-label="Selecione uma cidade..."
+                          >
+                            <option>Selecione uma cidade...</option>
+                            {citiesArray.map((l) => (
+                              <option value={l}>{l}</option>
+                            ))}
+                          </Form.Select>
+                          {/* <Form.Group className="mb-3" controlId="estCli">
                           <InputGroup>
                             <InputGroup.Text>Filtrar...</InputGroup.Text>
                             <Form.Control
@@ -540,18 +598,20 @@ export const CreateMensalist: React.FC = () => {
                               value={search}
                               type="text"
                             />
-                          </InputGroup>
+                          </InputGroup> */}
                         </Form.Group>
                       </Col>
                       <Col xs={4}></Col>
                     </React.Fragment>
                   )}
                   <Col xs={12}>
-                    <ListLocales
-                      selected={newMensalist.desLoc}
-                      onSelect={(value) => handleOnSelect(value)}
-                      list={localesFiltered}
-                    />
+                    {selectedCity && (
+                      <ListLocales
+                        selected={newMensalist.desLoc}
+                        onSelect={(value) => handleOnSelect(value)}
+                        list={localesFiltered}
+                      />
+                    )}
                   </Col>
                 </Row>
                 {newMensalist.desLoc === '' && (
@@ -563,7 +623,7 @@ export const CreateMensalist: React.FC = () => {
                 )}
                 {newMensalist.desLoc !== '' && (
                   <Row className="d-fles justify-content-center">
-                    <Col xs={2}>
+                    <Col xs={6} md={3}>
                       <Button className="mt-5" variant="dark" type="submit">
                         Finalizar Cadastro!
                       </Button>

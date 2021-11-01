@@ -27,12 +27,31 @@ const ListLocales: React.FC<ListLocalesProps> = ({
         {list.map((locale, index) => {
           return (
             <tr key={index}>
-              <td className="align-middle">{locale.endLoc}</td>
-              <td className="align-middle">{locale.baiLoc}</td>
               <td className="align-middle">
+                {locale.desLoc} <br />
+                <small>
+                  <b>Valor Médio da Mensalidade: </b>
+                  {new Intl.NumberFormat('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL',
+                  }).format(locale.vlrBas)}
+                </small>
+              </td>
+              <td className="align-middle">
+                <small>
+                  <b>End.:</b>
+                </small>{' '}
+                {locale.endLoc} <br />
+                <small>
+                  <b>Bairro:</b>
+                </small>{' '}
+                {locale.baiLoc} <br />
+                <small>
+                  <b>Cidade/UF:</b>
+                </small>{' '}
                 {locale.cidLoc} - {locale.estLoc}
               </td>
-              <td className="d-flex justify-content-center">
+              <td className="align-middle text-center">
                 {selected !== locale.desLoc && (
                   <Button
                     onClick={() => handleOnClick(locale.desLoc)}
@@ -42,10 +61,7 @@ const ListLocales: React.FC<ListLocalesProps> = ({
                   </Button>
                 )}
                 {selected === locale.desLoc && (
-                  <Button
-                    onClick={() => handleOnClick('')}
-                    variant="warning"
-                  >
+                  <Button onClick={() => handleOnClick('')} variant="warning">
                     Alterar
                   </Button>
                 )}
