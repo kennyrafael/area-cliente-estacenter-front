@@ -19,16 +19,19 @@ export const MainNav: React.FC = () => {
 
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-            <Nav.Link as={Link} to="/">
-              Meus Boletos
-            </Nav.Link>
+            {user && (
+              <Nav.Link as={Link} to="/">
+                Meus Boletos
+              </Nav.Link>
+            )}
 
-            <Nav.Link as={Link} to="/cadastro">
-              Novo Cadastro
-            </Nav.Link>
+            {!user && (
+              <Nav.Link as={Link} to="/cadastro">
+                Novo Cadastro
+              </Nav.Link>
+            )}
           </Nav>
         </Navbar.Collapse>
-
 
         <Navbar.Collapse className="justify-content-end" id="basic-navbar-nav">
           {user && <Navbar.Text>Bem vindo, {user.nomCli}!</Navbar.Text>}
