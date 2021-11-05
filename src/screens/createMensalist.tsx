@@ -1,5 +1,14 @@
 import React, { FormEvent, useCallback, useEffect, useState } from 'react'
-import { Form, Button, Col, Row, Card } from 'react-bootstrap'
+import {
+  Form,
+  Button,
+  Col,
+  Row,
+  Card,
+  Popover,
+  PopoverBody,
+} from 'react-bootstrap'
+import { FaInfoCircle } from 'react-icons/fa'
 import NumberFormat from 'react-number-format'
 import 'bs-stepper/dist/css/bs-stepper.min.css'
 import {
@@ -13,6 +22,7 @@ import ListLocales from '../components/listLocales'
 import { useValidation } from '../hooks/useValidation'
 import { updateLoading } from '../store'
 import { useDispatch } from 'react-redux'
+import { MessageModal } from '../components/messageModal'
 
 export interface Mensalist {
   nomCli: string
@@ -28,6 +38,8 @@ export interface Mensalist {
   fonCl3: string
   emaCli: string
   desLoc: string
+  plaCli: string
+  indiCli: string
   nomPla: 'CARRO' | 'MOTO'
   cepCli: string
   tipCli: 'F' | 'J'
@@ -61,14 +73,17 @@ const classActive = 'content active'
 
 export const CreateMensalist: React.FC = () => {
   const dispatch = useDispatch()
+  const [show, setShow] = useState(false)
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
   const [locales, updateLocales] = useState<ILocale[]>([])
   const [finished, updateFinished] = useState(false)
   const [citiesArray, updateCitiesArray] = useState<string[]>([])
   const [selectedCity, updateCity] = useState('')
   const [validation, updateValidation] = useState({
-    step1: false,
-    step2: false,
-    step3: false,
+    step1: true,
+    step2: true,
+    step3: true,
     step4: false,
   })
   const [localesFiltered, updateLocalesFiltered] = useState<ILocale[]>([])
@@ -141,6 +156,9 @@ export const CreateMensalist: React.FC = () => {
   }
 
   const handleOnSelect = (locale: string) => {
+    if (locale === '') {
+      updateCity('')
+    }
     const selectedLocale = locales.find((l) => l.desLoc === locale)
     if (selectedLocale) {
       updateLocalesFiltered([selectedLocale])
@@ -168,6 +186,8 @@ export const CreateMensalist: React.FC = () => {
     fonCl3: '',
     emaCli: '',
     desLoc: '',
+    plaCli: '',
+    indiCli: '',
     nomPla: 'CARRO',
     cepCli: '',
     tipCli: 'F',
@@ -379,6 +399,62 @@ export const CreateMensalist: React.FC = () => {
                     </Form.Group>
                   </Col>
                 </Row>
+                <Row>
+                  <Col xs={6} md={4}>
+                    <Form.Group className="mb-3" controlId="plaCli">
+                      <Form.Label>
+                        Placa do veículo * &nbsp;
+                        <FaInfoCircle
+                          style={{ cursor: 'pointer' }}
+                          onClick={handleShow}
+                        />
+                        <MessageModal
+                          show={show}
+                          message={
+                            'Cadastro da 1° placa, caso tenha mais placas favor enviar email para contato@estacenter.com'
+                          }
+                          onHide={handleClose}
+                        />
+                      </Form.Label>
+                      <Form.Control
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          handleOnChange({
+                            ...newMensalist,
+                            plaCli: e.target.value,
+                          })
+                        }
+                        type="text"
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col xs={6} md={4}>
+                    <Form.Group className="mb-3" controlId="indiCli">
+                      <Form.Label>
+                        Indicação &nbsp;
+                        <FaInfoCircle
+                          style={{ cursor: 'pointer' }}
+                          onClick={handleShow}
+                        />
+                        <MessageModal
+                          show={show}
+                          message={
+                            'Nome da pessoa que te indicou a Estacenter'
+                          }
+                          onHide={handleClose}
+                        />
+                      </Form.Label>
+                      <Form.Control
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          handleOnChange({
+                            ...newMensalist,
+                            indiCli: e.target.value,
+                          })
+                        }
+                        type="text"
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
                 <StepperFooter
                   validation={validation.step1}
                   dataNext={steps[1]}
@@ -408,7 +484,7 @@ export const CreateMensalist: React.FC = () => {
                   </Col>
                   <Col xs={6} md={3}>
                     <Form.Group className="mb-3" controlId="fonCli">
-                      <Form.Label>Fone Principal *</Form.Label>
+                      <Form.Label>Celular *</Form.Label>
                       <NumberFormat
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           handleOnChange({

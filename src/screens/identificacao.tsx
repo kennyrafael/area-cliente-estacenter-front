@@ -1,6 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { Form, Button, Col, Row, Card, InputGroup } from 'react-bootstrap'
-import NumberFormat from 'react-number-format'
+import React, { useState } from 'react'
+import { Form, Button, Col, Row, Card } from 'react-bootstrap'
 import 'bs-stepper/dist/css/bs-stepper.min.css'
 import {
   StepperButton,
@@ -8,9 +7,6 @@ import {
 } from '../components/stepper/stepperButton'
 import { StepperFooter } from '../components/stepper/stepperFooter'
 import dataService from '../service/data.service'
-import { ILocale } from '../types/locale'
-import ListLocales from '../components/listLocales'
-import { useValidation } from '../hooks/useValidation'
 import { updateLoading } from '../store'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router'

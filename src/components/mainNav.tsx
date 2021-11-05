@@ -21,7 +21,7 @@ export const MainNav: React.FC = () => {
           <Nav className="mr-auto">
             {user && (
               <Nav.Link as={Link} to="/">
-                Meus Boletos
+                Boletos Pendentes
               </Nav.Link>
             )}
 

@@ -4,6 +4,7 @@ export const useValidation = () => {
   return {
     validateStep1: (formValues: Mensalist): boolean => {
       if (formValues.nomCli === '') return false
+      if (formValues.plaCli === '') return false
       if (
         formValues.cpfCnpj === '' ||
         !formValues.cpfCnpj.match(

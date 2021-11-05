@@ -26,7 +26,7 @@ export const ListBills: React.FC = () => {
       const document = localStorage.getItem('document')
       if (document) {
         const userData = await dataService.getUser(document)
-        dispatch(addUser(userData.data))
+        if (userData.data.emaCli !== null) dispatch(addUser(userData.data))
       }
       toggleLoading(false)
     } catch (e) {
@@ -43,34 +43,36 @@ export const ListBills: React.FC = () => {
       <Row className="mt-4 mb-2">
         <Breadcrumb>
           <Breadcrumb.Item>
-            <h4>Meus Boletos</h4>
+            <h4>Boletos Pendentes</h4>
           </Breadcrumb.Item>
         </Breadcrumb>
       </Row>
       <Row className="gx-1">
         {user?.titulos?.map((t: ITitulo, i) => {
-            return (
-              <Card key={i} className="mb-2">
-                <Card.Body>
-                  <Card.Title className="d-flex justify-content-between">
-                    {t.obsTcr}
-                    <Button
-                      target="_blank"
-                      variant="warning"
-                      href={`${AppConstants.BACK_END_ADDRESS}get-pdf?codEmp=${t.codEmp}&codFil=${t.codFil}&codTpt=${t.codTpt}&numTit=${t.numTit}`}
-                    >
-                      <FaDownload /> Download
-                    </Button>
-                  </Card.Title>
-                  <Card.Text>
-                    Emitido em: {t.datEmi} <br />
-                    Vencimento: {t.vctPro}
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            )
-          })}
-          {!user?.titulos?.length && <p>Você não possui nenhum boleto em aberto!</p>}
+          return (
+            <Card key={i} className="mb-2">
+              <Card.Body>
+                <Card.Title className="d-flex justify-content-between">
+                  {t.obsTcr}
+                  <Button
+                    target="_blank"
+                    variant="warning"
+                    href={`${AppConstants.BACK_END_ADDRESS}get-pdf?codEmp=${t.codEmp}&codFil=${t.codFil}&codTpt=${t.codTpt}&numTit=${t.numTit}`}
+                  >
+                    <FaDownload /> Download
+                  </Button>
+                </Card.Title>
+                <Card.Text>
+                  Emitido em: {t.datEmi} <br />
+                  Vencimento: {t.vctPro}
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          )
+        })}
+        {!user?.titulos?.length && (
+          <p>Você não possui nenhum boleto em aberto!</p>
+        )}
       </Row>
     </React.Fragment>
   )

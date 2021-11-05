@@ -30,7 +30,7 @@ const ListLocales: React.FC<ListLocalesProps> = ({
               <td className="align-middle">
                 {locale.desLoc} <br />
                 {selected === locale.desLoc && <small>
-                  <b>Valor Médio da Mensalidade: </b>
+                  <b>Valor da Mensalidade Atual: </b>
                   {new Intl.NumberFormat('pt-BR', {
                     style: 'currency',
                     currency: 'BRL',

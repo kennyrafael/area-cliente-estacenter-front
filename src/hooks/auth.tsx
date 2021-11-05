@@ -15,6 +15,10 @@ export const authHook = () => {
       }
       return true
     },
+    eraseUser: () => {
+      localStorage.removeItem('document')
+      return true
+    },
   }
 }
 
