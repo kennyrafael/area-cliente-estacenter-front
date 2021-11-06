@@ -23,6 +23,7 @@ import { useValidation } from '../hooks/useValidation'
 import { updateLoading } from '../store'
 import { useDispatch } from 'react-redux'
 import { MessageModal } from '../components/messageModal'
+import { TermsModal } from '../components/termsModal'
 
 export interface Mensalist {
   nomCli: string
@@ -76,14 +77,24 @@ export const CreateMensalist: React.FC = () => {
   const [show, setShow] = useState(false)
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
+  const [show2, setShow2] = useState(false)
+  const handleClose2 = (terms: boolean) => {
+    updateTerms(terms)
+    setShow2(false)
+  }
+  const handleShow2 = () => setShow2(true)
+  const [show3, setShow3] = useState(false)
+  const handleClose3 = () => setShow3(false)
+  const handleShow3 = () => setShow3(true)
   const [locales, updateLocales] = useState<ILocale[]>([])
   const [finished, updateFinished] = useState(false)
+  const [terms, updateTerms] = useState(false)
   const [citiesArray, updateCitiesArray] = useState<string[]>([])
   const [selectedCity, updateCity] = useState('')
   const [validation, updateValidation] = useState({
-    step1: true,
-    step2: true,
-    step3: true,
+    step1: false,
+    step2: false,
+    step3: false,
     step4: false,
   })
   const [localesFiltered, updateLocalesFiltered] = useState<ILocale[]>([])
@@ -202,18 +213,18 @@ export const CreateMensalist: React.FC = () => {
     useValidation()
 
   const runValidation = (mensalist: Mensalist) => {
-    // updateValidation({
-    //   step1: true,
-    //   step2: true,
-    //   step3: true,
-    //   step4: true,
-    // })
     updateValidation({
       step1: validateStep1(mensalist),
       step2: validateStep2(mensalist),
       step3: validateStep3(mensalist),
       step4: validateStep4(mensalist),
     })
+    // updateValidation({
+    //   step1: true,
+    //   step2: true,
+    //   step3: true,
+    //   step4: true,
+    // })
   }
 
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -409,6 +420,7 @@ export const CreateMensalist: React.FC = () => {
                           onClick={handleShow}
                         />
                         <MessageModal
+                          key={1}
                           show={show}
                           message={
                             'Cadastro da 1° placa, caso tenha mais placas favor enviar email para contato@estacenter.com'
@@ -433,14 +445,13 @@ export const CreateMensalist: React.FC = () => {
                         Indicação &nbsp;
                         <FaInfoCircle
                           style={{ cursor: 'pointer' }}
-                          onClick={handleShow}
+                          onClick={handleShow3}
                         />
                         <MessageModal
-                          show={show}
-                          message={
-                            'Nome da pessoa que te indicou a Estacenter'
-                          }
-                          onHide={handleClose}
+                          key={2}
+                          show={show3}
+                          message={'Nome da pessoa que te indicou a Estacenter'}
+                          onHide={handleClose3}
                         />
                       </Form.Label>
                       <Form.Control
@@ -661,7 +672,9 @@ export const CreateMensalist: React.FC = () => {
                           >
                             <option>Selecione uma cidade...</option>
                             {citiesArray.map((l) => (
-                              <option value={l}>{l}</option>
+                              <option key={l} value={l}>
+                                {l}
+                              </option>
                             ))}
                           </Form.Select>
                           {/* <Form.Group className="mb-3" controlId="estCli">
@@ -698,13 +711,43 @@ export const CreateMensalist: React.FC = () => {
                   />
                 )}
                 {newMensalist.desLoc !== '' && (
-                  <Row className="d-fles justify-content-center">
-                    <Col xs={6} md={3}>
-                      <Button className="mt-5" variant="dark" type="submit">
-                        Finalizar Cadastro!
-                      </Button>
-                    </Col>
-                  </Row>
+                  <>
+                    <Row className="mt-5 d-fles justify-content-center">
+                      <Col xs={6} md={3}>
+                        <Form.Check style={{textAlign: 'center'}}>
+                          <Form.Check.Input
+                            checked={terms}
+                            onChange={() => updateTerms(!terms)}
+                            type="checkbox"
+                          />
+                          <Form.Label>
+                            &nbsp;Aceito os termos de serviço&nbsp;
+                            <FaInfoCircle
+                              style={{ cursor: 'pointer' }}
+                              onClick={handleShow2}
+                            />
+                          </Form.Label>
+                        </Form.Check>
+                        <TermsModal
+                          show={show2}
+                          onHide={(value) => handleClose2(value)}
+                        />
+                      </Col>
+                    </Row>
+                    <Row className="d-fles justify-content-center">
+                      <Col xs={6} md={3}>
+                        <div className="d-grid">
+                          <Button
+                            disabled={!terms}
+                            variant="dark"
+                            type="submit"
+                          >
+                            Finalizar Cadastro!
+                          </Button>
+                        </div>
+                      </Col>
+                    </Row>
+                  </>
                 )}
               </div>
             </div>
