@@ -146,21 +146,18 @@ export const CreateMensalist: React.FC = () => {
 
   const loadLocales = async () => {
     try {
-      const document = localStorage.getItem('document')
-      if (document) {
-        const userData = await dataService.getLocales()
-        const list = userData.data.locais.sort((a, b) => a.codFil - b.codFil)
-        updateLocales(list)
-        const cities = new Set(list.map((l) => l.cidLoc))
-        updateCitiesArray(
-          Array.from(cities).sort(
-            (a, b) =>
-              +(a.toLocaleLowerCase() > b.toLocaleLowerCase()) ||
-              -(a.toLocaleLowerCase() < b.toLocaleLowerCase())
-          )
+      const userData = await dataService.getLocales()
+      const list = userData.data.locais.sort((a, b) => a.codFil - b.codFil)
+      updateLocales(list)
+      const cities = new Set(list.map((l) => l.cidLoc))
+      updateCitiesArray(
+        Array.from(cities).sort(
+          (a, b) =>
+            +(a.toLocaleLowerCase() > b.toLocaleLowerCase()) ||
+            -(a.toLocaleLowerCase() < b.toLocaleLowerCase())
         )
-        updateLocalesFiltered(list)
-      }
+      )
+      updateLocalesFiltered(list)
     } catch (e) {
       console.error('Erro ao buscar locais')
     }
@@ -714,7 +711,7 @@ export const CreateMensalist: React.FC = () => {
                   <>
                     <Row className="mt-5 d-fles justify-content-center">
                       <Col xs={6} md={3}>
-                        <Form.Check style={{textAlign: 'center'}}>
+                        <Form.Check style={{ textAlign: 'center' }}>
                           <Form.Check.Input
                             checked={terms}
                             onChange={() => updateTerms(!terms)}
