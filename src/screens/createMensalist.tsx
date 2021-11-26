@@ -228,6 +228,8 @@ export const CreateMensalist: React.FC = () => {
     e.preventDefault()
     toggleLoading(true)
     try {
+      const selectedLocale = locales.find((l) => l.desLoc === newMensalist.desLoc)
+      newMensalist.nomPla += ' - R$ ' + selectedLocale?.vlrBas
       await dataService.submitNewMontlyClient(newMensalist)
       toggleLoading(false)
       updateFinished(true)
