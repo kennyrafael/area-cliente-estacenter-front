@@ -9,6 +9,9 @@ export const userReducer = (state = userInitialState, action: AnyAction): IUser 
 		case UserActions.ADD_USER: {
 			return action.payload;
 		}
+		case UserActions.REMOVE_USER: {
+			return null;
+		}
 		default:
 			return state;
 	}

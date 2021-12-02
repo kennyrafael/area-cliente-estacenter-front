@@ -250,10 +250,14 @@ export const CreateMensalist: React.FC = () => {
       className="mt-3"
     >
       <Card.Body>
-        <Card.Title>Cadastrar Novo Mensalista</Card.Title>
+        <Card.Title>
+          {finished
+            ? 'Cadastro realizado com sucesso!'
+            : 'Cadastrar Novo Mensalista'}
+        </Card.Title>
         <Card.Subtitle>
           {finished
-            ? 'O seu cadastro foi realizado com sucesso. Agora é só aguardar a nossa equipe entrar em contato!'
+            ? 'Aprovação do cadastro sujeito a disponibilidade de vagas.'
             : 'Preencha os Campos Abaixo'}
         </Card.Subtitle>
         <Form
@@ -284,11 +288,11 @@ export const CreateMensalist: React.FC = () => {
                     <Form.Group className="mb-3" controlId="nomCli">
                       <Form.Label>Nome *</Form.Label>
                       <Form.Control
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                           handleOnChange({
                             ...newMensalist,
-                            nomCli: e.target.value,
-                          })
+                            nomCli: e.target.value.toUpperCase(),
+                          })}
                         }
                         type="text"
                       />
@@ -342,7 +346,7 @@ export const CreateMensalist: React.FC = () => {
                           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                             handleOnChange({
                               ...newMensalist,
-                              cpfCnpj: e.target.value,
+                              cpfCnpj: e.target.value.toUpperCase(),
                             })
                           }
                           type="text"
@@ -359,7 +363,7 @@ export const CreateMensalist: React.FC = () => {
                           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                             handleOnChange({
                               ...newMensalist,
-                              cpfCnpj: e.target.value,
+                              cpfCnpj: e.target.value.toUpperCase(),
                             })
                           }
                           type="text"
@@ -431,7 +435,7 @@ export const CreateMensalist: React.FC = () => {
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           handleOnChange({
                             ...newMensalist,
-                            plaCli: e.target.value,
+                            plaCli: e.target.value.toUpperCase(),
                           })
                         }
                         type="text"
@@ -457,7 +461,7 @@ export const CreateMensalist: React.FC = () => {
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           handleOnChange({
                             ...newMensalist,
-                            indiCli: e.target.value,
+                            indiCli: e.target.value.toUpperCase(),
                           })
                         }
                         type="text"
@@ -485,7 +489,7 @@ export const CreateMensalist: React.FC = () => {
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           handleOnChange({
                             ...newMensalist,
-                            emaCli: e.target.value,
+                            emaCli: e.target.value.toUpperCase(),
                           })
                         }
                         type="email"
@@ -499,7 +503,7 @@ export const CreateMensalist: React.FC = () => {
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           handleOnChange({
                             ...newMensalist,
-                            fonCli: e.target.value,
+                            fonCli: e.target.value.toUpperCase(),
                           })
                         }
                         type="text"
@@ -516,7 +520,7 @@ export const CreateMensalist: React.FC = () => {
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           handleOnChange({
                             ...newMensalist,
-                            fonCl2: e.target.value,
+                            fonCl2: e.target.value.toUpperCase(),
                           })
                         }
                         type="text"
@@ -548,7 +552,7 @@ export const CreateMensalist: React.FC = () => {
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           handleOnChange({
                             ...newMensalist,
-                            endCli: e.target.value,
+                            endCli: e.target.value.toUpperCase(),
                           })
                         }
                         type="text"
@@ -562,7 +566,7 @@ export const CreateMensalist: React.FC = () => {
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           handleOnChange({
                             ...newMensalist,
-                            nenCli: e.target.value,
+                            nenCli: e.target.value.toUpperCase(),
                           })
                         }
                         type="text"
@@ -576,7 +580,7 @@ export const CreateMensalist: React.FC = () => {
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           handleOnChange({
                             ...newMensalist,
-                            baiCli: e.target.value,
+                            baiCli: e.target.value.toUpperCase(),
                           })
                         }
                         type="text"
@@ -590,7 +594,7 @@ export const CreateMensalist: React.FC = () => {
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           handleOnChange({
                             ...newMensalist,
-                            cepCli: e.target.value,
+                            cepCli: e.target.value.toUpperCase(),
                           })
                         }
                         type="text"
@@ -609,7 +613,7 @@ export const CreateMensalist: React.FC = () => {
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           handleOnChange({
                             ...newMensalist,
-                            cplCli: e.target.value,
+                            cplCli: e.target.value.toUpperCase(),
                           })
                         }
                         type="text"
@@ -623,7 +627,7 @@ export const CreateMensalist: React.FC = () => {
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           handleOnChange({
                             ...newMensalist,
-                            cidCli: e.target.value,
+                            cidCli: e.target.value.toUpperCase(),
                           })
                         }
                         type="text"
@@ -637,7 +641,7 @@ export const CreateMensalist: React.FC = () => {
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                           handleOnChange({
                             ...newMensalist,
-                            estCli: e.target.value,
+                            estCli: e.target.value.toUpperCase(),
                           })
                         }
                         type="text"
@@ -682,7 +686,7 @@ export const CreateMensalist: React.FC = () => {
                             <Form.Control
                               onChange={(
                                 e: React.ChangeEvent<HTMLInputElement>
-                              ) => handleSearch(e.target.value)}
+                              ) => handleSearch(e.target.value.toUpperCase())}
                               value={search}
                               type="text"
                             />
