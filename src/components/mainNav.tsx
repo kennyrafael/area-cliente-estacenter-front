@@ -27,7 +27,7 @@ export const MainNav: React.FC = () => {
     <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
       <Container>
         <Navbar.Brand as={Link} to="/">
-          Área do Cliente Estacenter
+          Área do Cliente
         </Navbar.Brand>
 
         <Navbar.Collapse id="basic-navbar-nav">

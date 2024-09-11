@@ -453,7 +453,7 @@ export const CreateMensalist: React.FC = () => {
                         <MessageModal
                           key={2}
                           show={show3}
-                          message={'Nome da pessoa que te indicou a Estacenter'}
+                          message={'Nome da pessoa que te indicou nosso serviço!'}
                           onHide={handleClose3}
                         />
                       </Form.Label>

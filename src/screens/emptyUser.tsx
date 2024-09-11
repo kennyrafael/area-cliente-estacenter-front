@@ -9,7 +9,7 @@ export const EmptyUser: React.FC = () => {
   if (queryParams.has('failed')) {
     queryParams.delete('failed')
     message =
-      'Desculpe, não foi possível validar os seus dados, verifique o email enviado ou entre em contato com  administração Estacenter 43 - 3376-1300'
+      'Desculpe, não foi possível validar os seus dados, verifique o email enviado ou entre em contato com a nossa administração 43 - 3376-1300'
   }
 
   return (
@@ -20,10 +20,10 @@ export const EmptyUser: React.FC = () => {
       <Col xs={12} md={6}>
         <Card className="text-center mt-5">
           <Card.Body>
-            <Card.Title>Cliente Estacenter</Card.Title>
+            <Card.Title>Cliente</Card.Title>
 
             <Card.Subtitle className="mt-2 mb-4">
-              Se você já é cliente estacenter, clique no botão abaixo para que
+              Se você já é cliente, clique no botão abaixo para que
               possamos validar as suas informações:
             </Card.Subtitle>
             <Button href="/identificao" variant="warning">
@@ -37,8 +37,7 @@ export const EmptyUser: React.FC = () => {
           <Card.Body>
             <Card.Title>Novo Cliente</Card.Title>
             <Card.Subtitle className="mt-2 mb-4">
-              Se você quer ser um mensalista em uma de nossas unidades
-              Estacenter, clique aqui para se cadastrar:
+              Se você quer ser um mensalista em uma de nossas unidades, clique aqui para se cadastrar:
             </Card.Subtitle>
             <Button href="/cadastro" variant="warning">
               Cadastrar
