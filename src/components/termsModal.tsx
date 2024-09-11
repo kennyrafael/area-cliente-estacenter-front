@@ -21,8 +21,7 @@ export const TermsModal: React.FC<{
         <p>
           <b>02.</b> Todo veículo deve estar devidamente cadastrado, para isso o
           mensalista deverá preencher todos os dados desse formulário e qualquer
-          alteração cadastral deverá ser comunicada à administração da
-          Estacenter.
+          alteração cadastral deverá ser comunicada à administração do estacionamento.
         </p>
         <p>
           <b>03.</b> O horário de funcionamento do estacionamento deverá ser
